@@ -244,7 +244,7 @@ if lipid_search is not None:
     
     #try:
         
-        df = pd.read_csv(lipid_search.name, error_bad_lines=False)
+        df = pd.read_csv(lipid_search)
         experiment = Experiment() 
         experiment.get_input()
     
