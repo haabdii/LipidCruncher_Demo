@@ -242,17 +242,17 @@ lipid_search = st.sidebar.file_uploader(label='Upload your LipidSearch 4.1 datas
         
 if lipid_search is not None:
     
-    try:
+    #try:
         
         df = pd.read_csv(lipid_search.name, error_bad_lines=False)
         experiment = Experiment() 
         experiment.get_input()
     
-    except:
+    #except:
         
-        st.sidebar.error("Pick a valid label for each condition!")
+        #st.sidebar.error("Pick a valid label for each condition!")
     
-    try:
+    #try:
         
         clean_df = CleanData(df, experiment)
         X = clean_df.clean_data()
@@ -279,11 +279,11 @@ if lipid_search is not None:
                     """)
             st.write(X)
         
-    except:
+    #except:
         
-        st.sidebar.error("The inputs need to be modified!")
+        #st.sidebar.error("The inputs need to be modified!")
         
-    try:
+    #try:
     
         expand_volcano_plot = st.expander("View and Understand Volcano Plots")
         with expand_volcano_plot:
@@ -322,8 +322,8 @@ if lipid_search is not None:
             X = plot.add_fold_change_and_p_value_columns(X, experiment)
             plot.create_volcano_plot(X)
         
-    except:
+    #except:
         
-        st.error("Something went wrong!!")
+        #st.error("Something went wrong!!")
             
             
