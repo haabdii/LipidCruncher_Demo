@@ -26,7 +26,7 @@ class Experiment:
 
         # List of conditions
         def get_conditions_list():
-            return [st.sidebar.text_input('Create a label for condition #'+str(i)+' (e.g. WT or KO)') for i in range(self.n_conditions)]
+            return [st.sidebar.text_input('Create a label for condition #'+str(i+1)+' (e.g. WT or KO)') for i in range(self.n_conditions)]
         
         self.conditions_list = get_conditions_list()
         
@@ -36,7 +36,7 @@ class Experiment:
 
         # List of the number of samples corresponding to each condition
         def get_number_of_samples_list():
-            return [st.sidebar.number_input('Enter the number of samples for condition #'+str(i), min_value = 1, max_value = 1000, value = 1, step = 1)\
+            return [st.sidebar.number_input('Enter the number of samples for condition #'+str(i+1), min_value = 1, max_value = 1000, value = 1, step = 1)\
                     for i in range(self.n_conditions)]
         
         self.number_of_samples_list = get_number_of_samples_list()
@@ -239,6 +239,9 @@ st.markdown("""
 st.sidebar.subheader("Upload Data")
         
 lipid_search = st.sidebar.file_uploader(label='Upload your LipidSearch 4.1 dataset', type=['csv', 'txt'])
+
+# useful for error catching
+counter = 0
         
 if lipid_search is not None:
     
@@ -247,83 +250,92 @@ if lipid_search is not None:
         df = pd.read_csv(lipid_search)
         experiment = Experiment() 
         experiment.get_input()
+        
+        counter += 1
     
     except:
         
         st.sidebar.error("Pick a valid label for each condition!")
     
-    try:
+    if counter == 1:
         
-        clean_df = CleanData(df, experiment)
-        X = clean_df.clean_data()
-        expand_clean_data = st.expander("View and Understand the Cleaned Dataset")
-        with expand_clean_data:
-            st.info("""
-                    
-                    Each row in the dataset represents a lipid species. There are many columns in a LipidSearch dataset, however, 
-                    for the purposes of this analysis, the following columns are the ones that we need:
-
-                    Rej: one of the built-in filtering mechanisms of LipidSearch which either takes 0 (i.e. accepted) or 1 (i.e. rejected).
-
-                    LipidMolec: the class that the lipid species belong to and its structure (number of carbon atoms and double bonds)
-
-                    Class: the class that the lipid species belong to
-
-                    Calc Mass: the calculated mass of the lipid species
-
-                    BaseRt: the retention time of the lipid species in the chromatography column
-
-                    MainArea[s1], ..., MainArea[sN]: Area Under the Curve (AUC) representing the relative abundance of the lipid species in samples s1 to sN 
-                    where N stands for the total number of the sampels
-                    
-                    """)
-            st.write(X)
-        
-    except:
-        
-        st.sidebar.error("The inputs need to be modified!")
-        
-    try:
+        try:
+            
+            clean_df = CleanData(df, experiment)
+            X = clean_df.clean_data()
+            
+            expand_clean_data = st.expander("View and Understand the Cleaned Dataset")
+            with expand_clean_data:
+                st.info("""
+                        
+                        Each row in the dataset represents a lipid species. There are many columns in a LipidSearch dataset, however, 
+                        for the purposes of this analysis, the following columns are the ones that we need:
     
-        expand_volcano_plot = st.expander("View and Understand Volcano Plots")
-        with expand_volcano_plot:
-            
-            st.markdown("""
-                        
-                        In statistics, a volcano plot is a type of scatter-plot that is used to quickly identify changes in large data sets composed of replicate data.
-                        It plots significance versus fold-change on the y and x axes, respectively. 
-                        A volcano plot combines a measure of statistical significance from a statistical test (e.g., a p value from a T-test) with the magnitude of the change,
-                        enabling quick visual identification of those data-points that display large magnitude changes that are also statistically significant 
-                        (datapoints at the top left and top right quadrant).
-
-                        Below, q-value (i.e. -log10(p-value)) of each lipid species is plotted versus the fold change of that species. 
-                        The p-value is computed from a two-sample T-test and the fold change is computed from the following formula:
-                        
-                        """)
-                        
-            latext = r'''
-                    
-                    $$ 
-                    Fold Change = log2(\frac{Mean AUC(Condition 1)}{Mean AUC(Condition 2)})
-                    $$  
-            
-                    '''
-            
-            st.write(latext)
-            
-            st.markdown("""
-                        
-                        "AUC" stands for "Area Under the Curve" which represents the relative abundance of the lipid species. 
-                        "MeanAUC(condition1)" stands for the AUC averaged over all samples (replicates) belonging to condition1.
+                        Rej: one of the built-in filtering mechanisms of LipidSearch which either takes 0 (i.e. accepted) or 1 (i.e. rejected).
+    
+                        LipidMolec: the class that the lipid species belong to and its structure (number of carbon atoms and double bonds)
+    
+                        Class: the class that the lipid species belong to
+    
+                        Calc Mass: the calculated mass of the lipid species
+    
+                        BaseRt: the retention time of the lipid species in the chromatography column
+    
+                        MainArea[s1], ..., MainArea[sN]: Area Under the Curve (AUC) representing the relative abundance of the lipid species in samples s1 to sN 
+                        where N stands for the total number of the sampels
                         
                         """)
+                st.write(X)
+                
+                counter += 1
+            
+        except:
+            
+            st.sidebar.error("The inputs need to be modified!")
+        
+    if counter == 2:
+    
+        try:
+        
+            expand_volcano_plot = st.expander("View and Understand Volcano Plots")
+            with expand_volcano_plot:
+                
+                st.markdown("""
+                            
+                            In statistics, a volcano plot is a type of scatter-plot that is used to quickly identify changes in large data sets composed of replicate data.
+                            It plots significance versus fold-change on the y and x axes, respectively. 
+                            A volcano plot combines a measure of statistical significance from a statistical test (e.g., a p value from a T-test) with the magnitude of the change,
+                            enabling quick visual identification of those data-points that display large magnitude changes that are also statistically significant 
+                            (datapoints at the top left and top right quadrant).
+    
+                            Below, q-value (i.e. -log10(p-value)) of each lipid species is plotted versus the fold change of that species. 
+                            The p-value is computed from a two-sample T-test and the fold change is computed from the following formula:
+                            
+                            """)
+                            
+                latext = r'''
                         
-            plot = VolcanoPlot(experiment)
-            X = plot.add_fold_change_and_p_value_columns(X, experiment)
-            plot.create_volcano_plot(X)
-        
-    except:
-        
-        st.error("Something went wrong!!")
+                        $$ 
+                        Fold Change = log2(\frac{Mean AUC(Condition 1)}{Mean AUC(Condition 2)})
+                        $$  
+                
+                        '''
+                
+                st.write(latext)
+                
+                st.markdown("""
+                            
+                            "AUC" stands for "Area Under the Curve" which represents the relative abundance of the lipid species. 
+                            "MeanAUC(condition1)" stands for the AUC averaged over all samples (replicates) belonging to condition1.
+                            
+                            """)
+                            
+                plot = VolcanoPlot(experiment)
+                X = plot.add_fold_change_and_p_value_columns(X, experiment)
+                plot.create_volcano_plot(X)
             
+        except:
             
+            st.error("Something went wrong!")
+                
+                
