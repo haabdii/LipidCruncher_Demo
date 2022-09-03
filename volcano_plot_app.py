@@ -119,7 +119,7 @@ class VolcanoPlot:
     def __init__(self, experiment_object):
         self.control = st.selectbox('pick the control condition', experiment_object.conditions_list, 0)
         self.experimental = st.selectbox('Pick the experimental condition', experiment_object.conditions_list, 1)
-        self.p_value_threshold = st.number_input('Enter the significance level', min_value = 0.001, max_value= 0.1, value = 0.01, step = 0.001)
+        self.p_value_threshold = st.number_input('Enter the significance level', min_value = 0.001, max_value= 0.1, value = 0.05, step = 0.001)
         self.q_value_threshold = -np.log10(self.p_value_threshold)
         
     def add_fold_change_and_p_value_columns(self, clean_dataframe, experiment_object):
