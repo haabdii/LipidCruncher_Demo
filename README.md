@@ -16,4 +16,13 @@ LipidSearch and LipidXplorer.
 I built LipidCruncher which is a web app that allows the user to perform lipidomics analysis on the LipidSearch and LipidXplorer datasets 
 [(Link to LipidCruncher Youtube Demo)](https://www.youtube.com/watch?v=KC4eLuwYw3A).
 
+Since the source code of LipidCruncher is few thousands lines long, in this demo, I re-create a toy version of LipidCruncher with only one feature: 
+volcano plots.
 
+Find LipidCruncher_Demo app at: https://haabdii-lipidcruncher-demo-volcano-plot-app-hua55p.streamlitapp.com/
+
+The source code of LipidCruncher_Demo app: volcano_plot_app.py
+
+The Jupyter notebook explaining this portfolio project: volcano_plot.ipynb
+
+Two datasets for testing LipidCruncher Demo app: test1.csv and test2.csv
