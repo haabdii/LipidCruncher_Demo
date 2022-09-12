@@ -13,5 +13,5 @@ In the context of lipidomics, the output of mass spectrometry is the relative ab
 This output is in the form of a spectrum in which the peaks represent an identified lipid species and the area underneath each peak reperesnts 
 the relative abundance of the corresponding lipid species. There are two pieces of software that turn this spectrum into a lipidomics dataset: 
 LipidSearch and LipidXplorer. 
-I built LipidCruncher which is a web app that allows the user to perform lipidomics analysis on the LipidSearch and LipidXplorer datasets. 
+I built LipidCruncher which is a web app that allows the user to perform lipidomics analysis on the LipidSearch and LipidXplorer datasets 
 [(Link to LipidCruncher Youtube Demo)](https://www.youtube.com/watch?v=KC4eLuwYw3A).
