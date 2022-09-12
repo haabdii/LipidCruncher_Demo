@@ -229,10 +229,19 @@ st.markdown("""
         relative abundance of the corresponding lipid species. There are two pieces of software that turn this spectrum into a lipidomics dataset: 
         LipidSearch and LipidXplorer. 
         I built LipidCruncher which is a web app that allows the user to perform lipidomics analysis on the LipidSearch and LipidXplorer datasets. 
-        [(Link to LipidCruncher Youtube Demo)](https://www.youtube.com/watch?v=Od9G6NYMyA0)
+        [(Link to LipidCruncher Youtube Demo)](https://www.youtube.com/watch?v=KC4eLuwYw3A)
         
         Since the source code of LipidCruncher is few thousands lines long, in this demo, 
         I re-create a toy version of LipidCruncher with only one feature: volcano plots.  
+        
+        **In order to try LipidCruncher Demo:**
+        
+        First, download test1 or test2 datasets [here](https://github.com/haabdii/LipidCruncher_Demo), 
+        then follow the instructions on the side bar.  
+        
+        Description of test1 dataset: 3 conditions, WT, KO and OE each with 6 samples
+        
+        Description of test2 dataset: 2 conditions, WT, KO each with 6 samples
         
         """)
 
